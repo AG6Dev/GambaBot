@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 /**
  * Marking a class with this annotation allows the {@link CommandManager} to automatically register the type as a command.
- * The class must extend {@link Command} and have a public no-arg constructor.
+ * The class must extend {@link SlashCommand} and have a public no-arg constructor.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

@@ -12,14 +12,17 @@ public class CommandListener extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
-        CommandManager.INSTANCE.commands.get(event.getName()).handle(event);
+        CommandManager.INSTANCE.slashCommands.get(event.getName()).handle(event);
     }
 
     //Bot owner commands are to be sent as messages and not as slash commands
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         if(event.getAuthor().getIdLong() == Configuration.INSTANCE.getBotOwnerIdLong()) {
-
+            if(event.getMessage().getMentions().getUsers().contains(event.getJDA().getSelfUser())) {
+                String[] args = event.getMessage().getContentRaw().split(" ");
+                CommandManager.INSTANCE.regularCommands.get(args[1]).handle(event);
+            }
         }
     }
 
@@ -27,7 +30,7 @@ public class CommandListener extends ListenerAdapter {
     public void onGuildReady(GuildReadyEvent event) {
         var updates = event.getGuild().updateCommands();
 
-        CommandManager.INSTANCE.commands.forEach((name, command) -> {
+        CommandManager.INSTANCE.slashCommands.forEach((name, command) -> {
             if(!command.isOwnerCommand()) {
                 var commandData = Commands.slash(command.getName(), command.getDescription());
 

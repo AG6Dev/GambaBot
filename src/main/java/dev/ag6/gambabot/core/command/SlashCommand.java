@@ -6,16 +6,8 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 import java.util.List;
 
-public interface Command {
+public interface SlashCommand extends RegularCommand {
     void handle(SlashCommandInteractionEvent event);
-
-    String getName();
-
-    String getDescription();
-
-    default boolean isOwnerCommand() {
-        return false;
-    }
 
     default List<OptionData> getOptionData() {
         return List.of();
